@@ -81,7 +81,9 @@ class Settings(BaseSettings):
     @property
     def sync_database_url(self) -> str:
         if self.DATABASE_URL:
-            return self.DATABASE_URL.replace("+asyncpg", "")
+            url = self.DATABASE_URL.replace("+asyncpg", "")
+            url = url.replace("+aiosqlite", "")
+            return url
         if self.USE_SQLITE:
             return "sqlite:///./app.db"
         return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
