@@ -10,7 +10,7 @@ os.environ.setdefault("SECRET_KEY", os.urandom(32).hex())
 os.environ.setdefault("ACCESS_TOKEN_EXPIRE_MINUTES", "1440")
 os.environ.setdefault("DEBUG", "false")
 
-from app.main import app
+from app.main import app as fastapi_app
 from mangum import Mangum
 
-handler = Mangum(app)
+app = Mangum(fastapi_app, lifespan="off")
