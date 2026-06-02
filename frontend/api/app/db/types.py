@@ -1,11 +1,12 @@
 from app.core.config import settings
 
 def get_vector_type(dimensions: int = 1536):
-    if settings.USE_SQLITE:
+    try:
+        from sqlalchemy.dialects.postgresql import VECTOR
+        return VECTOR(dimensions)
+    except ImportError:
         from sqlalchemy import Text
         return Text
-    from sqlalchemy.dialects.postgresql import VECTOR
-    return VECTOR(dimensions)
 
 
 def get_uuid_type():
