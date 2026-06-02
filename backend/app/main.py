@@ -15,7 +15,10 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting up...")
-    init_db()
+    try:
+        init_db()
+    except Exception as e:
+        logger.error(f"DB init failed: {e}")
     yield
     logger.info("Shutting down...")
     close_db()
