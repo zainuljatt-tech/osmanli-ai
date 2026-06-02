@@ -9,4 +9,3 @@ beautifulsoup4==4.12.3
 stripe==10.5.0
 aiofiles==24.1.0
 aiosqlite==0.20.0
-mangum==0.17.0
