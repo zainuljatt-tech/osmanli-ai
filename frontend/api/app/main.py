@@ -21,7 +21,10 @@ async def lifespan(app: FastAPI):
         logger.error(f"DB init failed: {e}")
     yield
     logger.info("Shutting down...")
-    close_db()
+    try:
+        close_db()
+    except Exception as e:
+        logger.error(f"DB close failed: {e}")
 
 
 app = FastAPI(title=settings.APP_NAME, version=settings.VERSION, lifespan=lifespan)
