@@ -56,21 +56,28 @@ def _build_scope(environ):
 
 
 def app(environ, start_response):
+    try:
+        return _wsgi_handler(environ, start_response)
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        start_response("500 Internal Server Error", [("Content-Type", "text/plain; charset=utf-8")])
+        return [f"Error: {e}\n{tb}".encode("utf-8")]
+
+
+def _wsgi_handler(environ, start_response):
     scope = _build_scope(environ)
-    body = environ.get("wsgi.input", None)
-    
-    async def send_body(receive, max_size=1024*1024):
-        if body:
-            data = body.read(max_size)
-            if data:
-                await receive({"type": "http.request", "body": data, "more_body": False})
-        await receive({"type": "http.request", "body": b"", "more_body": False})
     
     status_code = 200
     response_headers = []
     response_body = []
     
     async def receive():
+        body = environ.get("wsgi.input", None)
+        if body:
+            data = body.read(1024*1024)
+            if data:
+                return {"type": "http.request", "body": data, "more_body": False}
         return {"type": "http.request", "body": b"", "more_body": False}
     
     async def send(message):
