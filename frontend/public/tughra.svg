@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Tughra-inspired Ottoman emblem -->
+  <g transform="translate(60,60)">
+    <!-- Outer ring -->
+    <circle cx="0" cy="0" r="54" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
+    <circle cx="0" cy="0" r="48" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.15"/>
+    <!-- Crescent -->
+    <path d="M-8,-32 A20,20 0 1,1 -8,32 A24,24 0 1,0 -8,-32" fill="currentColor" opacity="0.9"/>
+    <!-- Star -->
+    <polygon points="0,-40 3,-31 12,-31 5,-25 7,-16 0,-21 -7,-16 -5,-25 -12,-31 -3,-31" fill="currentColor" opacity="0.9"/>
+    <!-- Central vertical line (tughra tuğ) -->
+    <line x1="0" y1="16" x2="0" y2="44" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <!-- Left curve (beyze) -->
+    <path d="M-2,16 Q-30,10 -35,-10 Q-38,-25 -20,-30" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <!-- Right curve -->
+    <path d="M2,16 Q30,10 35,-10 Q38,-25 20,-30" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <!-- Bottom decorative line -->
+    <path d="M-30,38 Q0,48 30,38" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.5"/>
+  </g>
+</svg>

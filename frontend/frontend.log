@@ -1,0 +1,147 @@
+
+> ai-assistant@1.0.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+   Downloading swc package @next/swc-win32-x64-msvc...
+ ✓ Ready in 10.9s
+ ○ Compiling / ...
+ ✓ Compiled / in 6.4s (560 modules)
+ GET / 200 in 6910ms
+ ✓ Compiled in 441ms (283 modules)
+ GET / 200 in 279ms
+ ○ Compiling /login ...
+ ✓ Compiled /login in 1068ms (602 modules)
+ GET / 200 in 139ms
+ GET / 200 in 91ms
+ GET / 200 in 81ms
+ GET / 200 in 82ms
+ GET / 200 in 75ms
+ GET / 200 in 34ms
+ GET / 200 in 76ms
+ GET /login 200 in 82ms
+ GET / 200 in 44ms
+ ○ Compiling /signup ...
+ ✓ Compiled /signup in 768ms (608 modules)
+ ○ Compiling /c/[chatId] ...
+ ✓ Compiled /c/[chatId] in 11.4s (2519 modules)
+ GET / 200 in 316ms
+ GET / 200 in 69ms
+ GET / 200 in 52ms
+ GET / 200 in 80ms
+ GET / 200 in 68ms
+ GET /login 200 in 77ms
+ GET / 200 in 70ms
+ ○ Compiling /_error ...
+ ✓ Compiled /settings in 16.6s (2788 modules)
+ GET / 200 in 175ms
+ ✓ Compiled in 1765ms (2786 modules)
+ ✓ Compiled in 1089ms (1471 modules)
+ ✓ Compiled in 1524ms (2772 modules)
+ ✓ Compiled in 530ms (1471 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 665ms (2775 modules)
+ GET /_next/static/css/app/layout.css 404 in 814ms
+ GET /_next/static/css/app/layout.css 404 in 25ms
+ GET /_next/static/css/app/layout.css 404 in 52ms
+ ✓ Compiled in 1570ms (2789 modules)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2.4s (2777 modules)
+ GET /_next/static/css/app/layout.css?v=1780388256811 500 in 8534ms
+ GET / 500 in 89ms
+ GET /settings 500 in 115ms
+ GET /_next/static/webpack/38bfe5dc84cca5fd.webpack.hot-update.json 500 in 202ms
+ GET / 500 in 274ms
+ GET /_next/static/webpack/38bfe5dc84cca5fd.webpack.hot-update.json 500 in 74ms
+ ✓ Compiled in 3.6s (2777 modules)
+ GET /settings 500 in 4381ms
+ GET /_next/static/webpack/38bfe5dc84cca5fd.webpack.hot-update.json 500 in 2525ms
+ GET / 500 in 185ms
+ ✓ Compiled in 2.4s (2791 modules)
+ GET /_next/static/webpack/38bfe5dc84cca5fd.webpack.hot-update.json 500 in 1846ms
+ GET /_next/static/webpack/38bfe5dc84cca5fd.webpack.hot-update.json 500 in 187ms
+ GET / 200 in 369ms
+ GET /settings 500 in 443ms
+ GET / 500 in 487ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 1125ms
+ GET /_next/static/webpack/38bfe5dc84cca5fd.webpack.hot-update.json 500 in 187ms
+ GET /settings 500 in 243ms
+ GET /_next/static/webpack/38bfe5dc84cca5fd.webpack.hot-update.json 500 in 123ms
+ GET / 500 in 281ms
+ GET /_next/static/webpack/38bfe5dc84cca5fd.webpack.hot-update.json 500 in 79ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 1183ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 303ms
+ GET /settings 404 in 199ms
+ GET /settings 404 in 293ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 218ms
+ GET /settings 404 in 184ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 280ms
+ GET /settings 404 in 37ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 37ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 76ms
+ GET /settings 404 in 131ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 157ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 146ms
+ GET /settings 404 in 59ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 71ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 29ms
+ GET /settings 404 in 23ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 19ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 20ms
+ GET /settings 404 in 20ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 29ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 20ms
+ GET /settings 404 in 27ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 404 in 21ms
+ GET /settings 404 in 29ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 933ms
+ GET /settings 500 in 43ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 1070ms
+ GET /settings 500 in 32ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 741ms
+ GET /settings 500 in 47ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 793ms
+ GET /settings 500 in 39ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 674ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 702ms
+ GET /settings 500 in 38ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 700ms
+ GET /settings 500 in 36ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 735ms
+ GET /settings 500 in 34ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 840ms
+ GET /settings 500 in 41ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 790ms
+ GET /settings 500 in 38ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 779ms
+ GET /settings 500 in 38ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 500 in 789ms
+ GET /settings 500 in 38ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 200 in 2721ms
+ GET /settings 500 in 72ms
+ GET /c/1db52750-18ff-45fd-96c0-d99990604ad4 200 in 108ms
+ GET /_next/static/css/app/layout.css?v=1780388323427 500 in 114ms
+ GET /_next/static/chunks/webpack.js?v=1780388323427 500 in 113ms
+ GET /_next/static/chunks/main-app.js?v=1780388323427 500 in 110ms
+ GET /_next/static/chunks/app/(chat)/c/%5BchatId%5D/page.js 500 in 104ms
+ GET /_next/static/chunks/app-pages-internals.js 500 in 100ms
+ GET /_next/static/chunks/app/(chat)/layout.js 500 in 99ms
+ GET /_next/static/chunks/app/layout.js 500 in 22ms
+ GET /settings 500 in 38ms
+ GET /settings 500 in 47ms
+ GET /settings 500 in 48ms
+ GET /settings 500 in 26ms
+ GET /settings 500 in 34ms
+ GET /settings 500 in 36ms
+ GET /settings 500 in 680ms
+ GET /settings 500 in 22ms
+ GET /settings 500 in 26ms
+[?25h

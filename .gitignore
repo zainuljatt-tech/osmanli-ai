@@ -1,0 +1,10 @@
+.env
+*.pyc
+__pycache__/
+*.db
+.next/
+node_modules/
+dist/
+uploads/*
+!uploads/.gitkeep
+server.log
