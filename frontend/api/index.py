@@ -1,8 +1,6 @@
 import sys
 import os
 import asyncio
-import json
-import urllib.parse
 
 sys.path.insert(0, os.path.dirname(__file__))
 
@@ -14,10 +12,21 @@ os.environ.setdefault("SECRET_KEY", os.urandom(32).hex())
 os.environ.setdefault("ACCESS_TOKEN_EXPIRE_MINUTES", "1440")
 os.environ.setdefault("DEBUG", "false")
 
-from app.main import app as asgi_app
+
+def app(environ, start_response):
+    try:
+        return _real_app(environ, start_response)
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        body = f"Error: {e}\n{tb}".encode("utf-8")
+        start_response("500 Internal Server Error", [("Content-Type", "text/plain; charset=utf-8"), ("Content-Length", str(len(body)))])
+        return [body]
 
 
-def _build_scope(environ):
+def _real_app(environ, start_response):
+    from app.main import app as asgi_app
+    
     path = environ.get("PATH_INFO", "/")
     qs = environ.get("QUERY_STRING", "")
     
@@ -35,11 +44,9 @@ def _build_scope(environ):
         headers.append((b"content-length", cl.encode()))
     
     server = environ.get("SERVER_NAME", ""), int(environ.get("SERVER_PORT", "80"))
-    client = environ.get("REMOTE_ADDR", ""), 0
-    
     scheme = environ.get("wsgi.url_scheme", "http")
     
-    return {
+    scope = {
         "type": "http",
         "asgi": {"version": "3.0"},
         "http_version": "1.1",
@@ -51,31 +58,17 @@ def _build_scope(environ):
         "root_path": "",
         "headers": headers,
         "server": server,
-        "client": client,
+        "client": ("", 0),
     }
-
-
-def app(environ, start_response):
-    try:
-        return _wsgi_handler(environ, start_response)
-    except Exception as e:
-        import traceback
-        tb = traceback.format_exc()
-        start_response("500 Internal Server Error", [("Content-Type", "text/plain; charset=utf-8")])
-        return [f"Error: {e}\n{tb}".encode("utf-8")]
-
-
-def _wsgi_handler(environ, start_response):
-    scope = _build_scope(environ)
     
     status_code = 200
     response_headers = []
     response_body = []
     
     async def receive():
-        body = environ.get("wsgi.input", None)
-        if body:
-            data = body.read(1024*1024)
+        body_data = environ.get("wsgi.input", None)
+        if body_data:
+            data = body_data.read(1024*1024)
             if data:
                 return {"type": "http.request", "body": data, "more_body": False}
         return {"type": "http.request", "body": b"", "more_body": False}
@@ -84,9 +77,7 @@ def _wsgi_handler(environ, start_response):
         nonlocal status_code, response_headers
         if message["type"] == "http.response.start":
             status_code = message["status"]
-            response_headers = [
-                (k.decode(), v.decode()) for k, v in message["headers"]
-            ]
+            response_headers = [(k.decode(), v.decode()) for k, v in message["headers"]]
         elif message["type"] == "http.response.body":
             response_body.append(message.get("body", b""))
     
@@ -100,5 +91,6 @@ def _wsgi_handler(environ, start_response):
     finally:
         loop.close()
     
-    start_response(f"{status_code} {'OK' if status_code < 400 else 'Error'}", response_headers)
+    status_text = "OK" if status_code < 400 else "Error"
+    start_response(f"{status_code} {status_text}", response_headers)
     return response_body
