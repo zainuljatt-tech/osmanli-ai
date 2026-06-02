@@ -13,64 +13,42 @@ os.environ.setdefault("ACCESS_TOKEN_EXPIRE_MINUTES", "1440")
 os.environ.setdefault("DEBUG", "false")
 
 
-async def simple_asgi(scope, receive, send):
-    await send({
-        "type": "http.response.start",
-        "status": 200,
-        "headers": [(b"content-type", b"application/json")],
-    })
-    await send({
-        "type": "http.response.body",
-        "body": json.dumps({"status": "ok", "mode": "simple_asgi"}).encode(),
-    })
-
-
-def _build_scope(environ):
-    headers = []
-    for k, v in environ.items():
-        if k.startswith("HTTP_"):
-            name = k[5:].replace("_", "-").lower()
-            headers.append((name.encode(), v.encode()))
-    ct = environ.get("CONTENT_TYPE", "")
-    if ct:
-        headers.append((b"content-type", ct.encode()))
-    cl = environ.get("CONTENT_LENGTH", "")
-    if cl:
-        headers.append((b"content-length", cl.encode()))
-    return {
-        "type": "http",
-        "asgi": {"version": "3.0"},
-        "http_version": "1.1",
-        "method": environ.get("REQUEST_METHOD", "GET"),
-        "scheme": environ.get("wsgi.url_scheme", "http"),
-        "path": environ.get("PATH_INFO", "/"),
-        "query_string": environ.get("QUERY_STRING", "").encode(),
-        "headers": headers,
-        "server": (environ.get("SERVER_NAME", ""), int(environ.get("SERVER_PORT", "80"))),
-        "client": (environ.get("REMOTE_ADDR", ""), 0),
-    }
-
-
 def app(environ, start_response):
     try:
         path = environ.get("PATH_INFO", "")
         
-        if path == "/api/simple":
-            body = b'{"simple":true}'
+        # Health check - fast path without FastAPI
+        if path in ("/api/v1/health", "/api/health"):
+            body = json.dumps({"status": "ok", "service": "Osmanli AI", "version": "1.0.0"}).encode()
             start_response("200 OK", [("Content-Type", "application/json")])
             return [body]
         
-        asgi_app = None
-        if path.startswith("/api/v1/"):
-            from app.main import app as fastapi_app
-            asgi_app = fastapi_app
-        
-        if asgi_app is None:
-            body = b'{"error":"no route"}'
-            start_response("404 Not Found", [("Content-Type", "application/json")])
+        # Root info
+        if path == "/":
+            body = json.dumps({"service": "Osmanli AI", "version": "1.0.0"}).encode()
+            start_response("200 OK", [("Content-Type", "application/json")])
             return [body]
         
-        scope = _build_scope(environ)
+        # For other API routes, import and use FastAPI
+        from app.main import app as fastapi_app
+        
+        scope = {
+            "type": "http",
+            "asgi": {"version": "3.0"},
+            "http_version": "1.1",
+            "method": environ.get("REQUEST_METHOD", "GET"),
+            "scheme": environ.get("wsgi.url_scheme", "http"),
+            "path": path,
+            "query_string": environ.get("QUERY_STRING", "").encode(),
+            "headers": [],
+            "server": (environ.get("SERVER_NAME", ""), int(environ.get("SERVER_PORT", "80"))),
+            "client": (environ.get("REMOTE_ADDR", ""), 0),
+        }
+        for k, v in environ.items():
+            if k.startswith("HTTP_"):
+                name = k[5:].replace("_", "-").lower()
+                scope["headers"].append((name.encode(), v.encode()))
+        
         status_code = 200
         response_headers = []
         response_body = b""
@@ -94,7 +72,7 @@ def app(environ, start_response):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
-            loop.run_until_complete(asgi_app(scope, receive, send))
+            loop.run_until_complete(fastapi_app(scope, receive, send))
         finally:
             loop.close()
         
