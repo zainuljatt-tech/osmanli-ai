@@ -1,6 +1,7 @@
 import sys
 import os
 import asyncio
+import json
 
 sys.path.insert(0, os.path.dirname(__file__))
 
@@ -11,7 +12,17 @@ os.environ.setdefault("SECRET_KEY", os.urandom(32).hex())
 os.environ.setdefault("ACCESS_TOKEN_EXPIRE_MINUTES", "1440")
 os.environ.setdefault("DEBUG", "false")
 
-from app.main import app as asgi_app
+
+async def simple_asgi(scope, receive, send):
+    await send({
+        "type": "http.response.start",
+        "status": 200,
+        "headers": [(b"content-type", b"application/json")],
+    })
+    await send({
+        "type": "http.response.body",
+        "body": json.dumps({"status": "ok", "mode": "simple_asgi"}).encode(),
+    })
 
 
 def _build_scope(environ):
@@ -42,15 +53,32 @@ def _build_scope(environ):
 
 def app(environ, start_response):
     try:
+        path = environ.get("PATH_INFO", "")
+        
+        if path == "/api/simple":
+            body = b'{"simple":true}'
+            start_response("200 OK", [("Content-Type", "application/json")])
+            return [body]
+        
+        asgi_app = None
+        if path.startswith("/api/v1/"):
+            from app.main import app as fastapi_app
+            asgi_app = fastapi_app
+        
+        if asgi_app is None:
+            body = b'{"error":"no route"}'
+            start_response("404 Not Found", [("Content-Type", "application/json")])
+            return [body]
+        
         scope = _build_scope(environ)
         status_code = 200
         response_headers = []
         response_body = b""
         
         async def receive():
-            body = environ.get("wsgi.input", None)
-            if body:
-                data = body.read(1024 * 1024)
+            body_data = environ.get("wsgi.input")
+            if body_data:
+                data = body_data.read(1024 * 1024)
                 if data:
                     return {"type": "http.request", "body": data, "more_body": False}
             return {"type": "http.request", "body": b"", "more_body": False}
