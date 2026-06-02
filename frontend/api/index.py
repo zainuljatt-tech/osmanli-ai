@@ -11,3 +11,6 @@ os.environ.setdefault("ACCESS_TOKEN_EXPIRE_MINUTES", "1440")
 os.environ.setdefault("DEBUG", "false")
 
 from app.main import app
+from mangum import Mangum
+
+handler = Mangum(app)
