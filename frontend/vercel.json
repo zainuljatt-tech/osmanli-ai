@@ -9,5 +9,8 @@
       "source": "/api/v1/(.*)",
       "destination": "/api/index"
     }
-  ]
+  ],
+  "env": {
+    "VERCEL_PYTHON_ASGI_SUPPORT": "1"
+  }
 }
