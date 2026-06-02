@@ -1,4 +1,7 @@
+import sys
 import os
+
+sys.path.insert(0, os.path.dirname(__file__))
 
 os.environ.setdefault("USE_SQLITE", "true")
 os.environ.setdefault("DATABASE_URL", f"sqlite+aiosqlite:///{os.path.join(os.path.sep, 'tmp', 'app.db')}")
