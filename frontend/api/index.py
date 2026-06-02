@@ -3,6 +3,7 @@ import os
 
 sys.path.insert(0, os.path.dirname(__file__))
 
+os.environ.setdefault("VERCEL_PYTHON_ASGI_SUPPORT", "1")
 os.environ.setdefault("USE_SQLITE", "true")
 os.environ.setdefault("DATABASE_URL", f"sqlite+aiosqlite:///{os.path.join(os.path.sep, 'tmp', 'app.db')}")
 os.environ.setdefault("CORS_ORIGINS", "*")
