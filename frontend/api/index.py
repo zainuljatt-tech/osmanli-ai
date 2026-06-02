@@ -15,21 +15,30 @@ try:
     MODULE_OK = True
 except Exception as e:
     import traceback
-    _import_error = f"Import error: {e}\n{traceback.format_exc()}"
+    _import_error = f"Error: {e}\n{traceback.format_exc()}"
     MODULE_OK = False
 
 
-def app(environ, start_response):
+def app(*args):
+    if len(args) == 2:
+        return _wsgi(args[0], args[1])
+    return _asgi(args[0], args[1], args[2])
+
+
+def _wsgi(environ, start_response):
     if not MODULE_OK:
         body = _import_error.encode("utf-8")
-        start_response("500 Internal Server Error", [("Content-Type", "text/plain; charset=utf-8"), ("Content-Length", str(len(body)))])
+        start_response("500 ISE", [("Content-Type", "text/plain; charset=utf-8")])
         return [body]
-    
-    path = environ.get("PATH_INFO", "")
-    if path == "/api/debug":
-        body = b'{"import":"ok","module":"fastapi_app loaded"}'
-        start_response("200 OK", [("Content-Type", "application/json"), ("Content-Length", str(len(body)))])
-        return [body]
-    
+    body = b'{"wsgi":"ok"}'
     start_response("200 OK", [("Content-Type", "application/json")])
-    return [b'{"status":"ok"}']
+    return [body]
+
+
+async def _asgi(scope, receive, send):
+    if not MODULE_OK:
+        await send({"type": "http.response.start", "status": 500, "headers": [(b"content-type", b"text/plain")]})
+        await send({"type": "http.response.body", "body": _import_error.encode("utf-8")})
+        return
+    await send({"type": "http.response.start", "status": 200, "headers": [(b"content-type", b"application/json")]})
+    await send({"type": "http.response.body", "body": b'{"asgi":"ok"}'})
